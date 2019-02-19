@@ -21,6 +21,11 @@ public class VideoCtrl : MonoBehaviour
 
     public Button hideUIButton;
     public Button showUIButton;
+    public Image volumeHandle;
+    public Image volumeBackground;
+    public Toggle volumeToggle;
+    public Material volumeBackgroundMaterial;
+    public Material volumeHandleMaterial;
 
     private CanvasGroup canvasGroup;
 
@@ -47,6 +52,12 @@ public class VideoCtrl : MonoBehaviour
 
         canvasGroup = GameObject.Find("Canvas").GetComponent<CanvasGroup>();
 
+        volumeHandle = GameObject.Find("VolumeHandle").GetComponent<Image>();
+
+        volumeBackground = GameObject.Find("VolumeBackground").GetComponent<Image>();        
+
+        volumeToggle = GameObject.Find("VolumeToggle").GetComponent<Toggle>();
+
     }
 
     void Update()
@@ -54,6 +65,114 @@ public class VideoCtrl : MonoBehaviour
         videoPlayer.SetDirectAudioVolume(0, volume);
     }
 
+    public void ShowVolumeBar()
+    {
+        if(volumeToggle.isOn == true)
+        {
+            StartCoroutine(ShowVolumeBackgroundCo());
+        }
+        else
+        {
+            StartCoroutine(HideVolumeBackgroundCo());
+        }     
+    }
+
+    IEnumerator ShowVolumeBackgroundCo()
+    {
+        
+
+        if (volumeBackgroundMaterial.color.a == 1)
+        {
+            Debug.Log("start Show Loop");
+            float alpha = volumeBackgroundMaterial.color.a;
+            for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / fadeInTime)
+            {
+                Color newColor = new Color(1, 1, 1, Mathf.Lerp(alpha, 0f, t));
+                volumeBackgroundMaterial.color = newColor;
+                yield return null;
+            }
+        }
+        else
+        {
+            Debug.Log("wow");
+            float alpha = volumeBackgroundMaterial.color.a;
+            for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / fadeInTime)
+            {
+                Color newColor = new Color(1, 1, 1, Mathf.Lerp(alpha, 0f, t));
+                volumeBackgroundMaterial.color = newColor;
+                yield return null;
+            }
+        }
+        
+        /*
+        Color fullColor = new Color(255, 255, 255, 255);
+        Color alphaColor = new Color(255, 255, 255, 0);
+        Debug.Log("Show Volume Fill UI");
+
+        if (volumeBackground.color.Equals(fullColor))
+        {
+            for (float t = 0.01f; t < fadeInTime; t += 0.01f)
+            {
+                Debug.Log("start Show Loop");
+                volumeBackground.color = Color.Lerp(alphaColor, fullColor, t / fadeInTime);
+                volumeHandle.color = Color.Lerp(alphaColor, fullColor, t / fadeInTime);
+                yield return null;
+            }
+        }
+        else
+        {            
+            yield return null;
+            volumeBackground.color = new Color(255, 255, 255, 0);
+            StartCoroutine(HideVolumeBackgroundCo());
+        }*/
+        
+    }
+
+        IEnumerator HideVolumeBackgroundCo()
+    {
+        if (volumeBackgroundMaterial.color.a.Equals(255))
+        {
+            float alpha = volumeBackgroundMaterial.color.a;
+            for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / fadeInTime)
+            {
+                Color newColor = new Color(1, 1, 1, Mathf.Lerp(alpha, 0f, t));
+                volumeBackgroundMaterial.color = newColor;
+                yield return null;
+            }
+        }
+        else
+        {
+            float alpha = volumeBackgroundMaterial.color.a;
+            for (float t = 0.0f; t < 1.0f; t += Time.deltaTime / fadeInTime)
+            {
+                Color newColor = new Color(1, 1, 1, Mathf.Lerp(alpha, 0255f, t));
+                volumeBackgroundMaterial.color = newColor;
+                yield return null;
+            }
+        }
+        /*
+        Color fullColor = new Color(255, 255, 255, 255);
+        Color alphaColor = new Color(255, 255, 255, 0);
+        Debug.Log("Hide Volume Fill UI");
+
+        if (volumeBackground.color.Equals(alphaColor))
+        {
+            for (float t = 0.01f; t < fadeInTime; t += 0.01f)
+            {
+                Debug.Log("start Hide Loop");
+                volumeBackground.color = Color.Lerp(fullColor, alphaColor, t/fadeInTime);
+                volumeHandle.color = Color.Lerp(fullColor, alphaColor, t / fadeInTime);
+                yield return null;
+            }
+        }
+        else
+        {
+            yield return null;
+            volumeBackground.color = new Color(255, 255, 255, 255);
+            StartCoroutine(ShowVolumeBackgroundCo());
+        }*/
+    }
+    
     public void ChangeVolume()
     {
         volume = sliderVolume.value;
