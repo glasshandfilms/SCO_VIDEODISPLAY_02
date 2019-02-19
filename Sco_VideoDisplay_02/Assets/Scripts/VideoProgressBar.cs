@@ -5,8 +5,8 @@ using UnityEngine.Video;
 
 public class VideoProgressBar : MonoBehaviour, IDragHandler, IPointerDownHandler
 {
-    [SerializeField]
-    private VideoPlayer videoPlayer;
+   [SerializeField]
+   private VideoPlayer videoPlayer;
 
 
     private Image progress;
