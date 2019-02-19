@@ -8,6 +8,7 @@ public class VideoProgressBar : MonoBehaviour, IDragHandler, IPointerDownHandler
     [SerializeField]
     private VideoPlayer videoPlayer;
 
+
     private Image progress;
     
     private void Awake()

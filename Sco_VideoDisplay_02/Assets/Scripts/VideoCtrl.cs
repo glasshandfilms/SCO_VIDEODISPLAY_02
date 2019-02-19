@@ -8,35 +8,41 @@ using UnityEngine.UI;
 public class VideoCtrl : MonoBehaviour
 {
     public VideoClip[] vids;
-    public Text currentMinutes;
-    public Text currentSeconds;
-    public Text totalMinutes;
-    public Text totalSeconds;
-    
-
-    private VideoPlayer videoPlayer;
-    private int videoClipIndex;
+    public VideoPlayer videoPlayer;
+    public float volume = 1f;
+    public Slider sliderVolume; 
+        
+    public int videoClipIndex;
 
     void Awake()
     {
         videoPlayer = GetComponent<VideoPlayer>();
+        volume = sliderVolume.value;
     }
-
+    
     void Start()
     {
-        videoPlayer.clip = vids[0];
+        
+        videoPlayer.clip = vids[videoClipIndex];
+        videoPlayer.audioOutputMode = UnityEngine.Video.VideoAudioOutputMode.Direct;   
+        
+        
+   
+       
     }
+
+    
 
     // Update is called once per frame
     void Update()
     {
-        if(videoPlayer.isPlaying)
-        {
-            
-        }
+        videoPlayer.SetDirectAudioVolume(0, volume);
     }
 
-    
+    public void ChangeVolume()
+    {
+        volume = sliderVolume.value;
+    }
 
 
 
