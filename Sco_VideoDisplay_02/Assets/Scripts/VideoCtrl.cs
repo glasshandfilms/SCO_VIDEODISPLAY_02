@@ -9,6 +9,8 @@ public class VideoCtrl : MonoBehaviour
 {
     public VideoClip[] vids;
     public int videoClipIndex;
+    public RawImage[] tabs;
+    public int tabsIndex;
     public VideoPlayer videoPlayer;
     public float volume = 1f;
     public Slider sliderVolume; 
@@ -18,8 +20,7 @@ public class VideoCtrl : MonoBehaviour
     public Sprite pauseSprite;
     private int counter = 0;
 
-    public Button hideUIButton;
-    public Button showUIButton;
+    public Button hideUIButton;    
     public Image volumeHandle;
     public Image volumeBackground;
     public Toggle volumeToggle;
@@ -35,8 +36,12 @@ public class VideoCtrl : MonoBehaviour
     {
         videoPlayer = GetComponent<VideoPlayer>();
         volume = sliderVolume.value;
-        
-        
+        tabs[0].enabled = false;
+        tabs[1].enabled = false;
+        tabs[2].enabled = false;
+        tabs[3].enabled = false;
+        tabs[4].enabled = false;
+
     }
     
     void Start()
@@ -63,6 +68,11 @@ public class VideoCtrl : MonoBehaviour
     void Update()
     {
         videoPlayer.SetDirectAudioVolume(0, volume);
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
     }
 
     public void ShowVolumeBar()
@@ -185,6 +195,11 @@ public class VideoCtrl : MonoBehaviour
     public void CivitasVideo()
     {
         Debug.Log("play Civitas Video");
+        tabs[0].enabled = true;
+        tabs[1].enabled = false;
+        tabs[2].enabled = false;
+        tabs[3].enabled = false;
+        tabs[4].enabled = false;
         this.gameObject.GetComponent<VideoPlayer>().playOnAwake = true;
         videoPlayer.clip = vids[2];
         videoPlayer.audioOutputMode = UnityEngine.Video.VideoAudioOutputMode.Direct;
@@ -192,6 +207,11 @@ public class VideoCtrl : MonoBehaviour
 
     public void BadgeVideo()
     {
+        tabs[0].enabled = false;
+        tabs[1].enabled = true;
+        tabs[2].enabled = false;
+        tabs[3].enabled = false;
+        tabs[4].enabled = false;
         Debug.Log("play Badge Video");
         this.gameObject.GetComponent<VideoPlayer>().playOnAwake = true;
         videoPlayer.clip = vids[3];
@@ -200,6 +220,11 @@ public class VideoCtrl : MonoBehaviour
 
     public void ScoppechioVideo()
     {
+        tabs[0].enabled = false;
+        tabs[1].enabled = false;
+        tabs[2].enabled = true;
+        tabs[3].enabled = false;
+        tabs[4].enabled = false;
         Debug.Log("play Scoppechio Video");
         this.gameObject.GetComponent<VideoPlayer>().playOnAwake = true;
         videoPlayer.clip = vids[0];
@@ -208,6 +233,11 @@ public class VideoCtrl : MonoBehaviour
 
     public void ThreeAnimationVideo()
     {
+        tabs[0].enabled = false;
+        tabs[1].enabled = false;
+        tabs[2].enabled = false;
+        tabs[3].enabled = true;
+        tabs[4].enabled = false;
         Debug.Log("play 3 Animation Video");
         this.gameObject.GetComponent<VideoPlayer>().playOnAwake = true;
         videoPlayer.clip = vids[4];
@@ -216,6 +246,11 @@ public class VideoCtrl : MonoBehaviour
 
     public void ThreeLiveAction()
     {
+        tabs[0].enabled = false;
+        tabs[1].enabled = false;
+        tabs[2].enabled = false;
+        tabs[3].enabled = false;
+        tabs[4].enabled = true;
         Debug.Log("play 3 Live Action Video");
         this.gameObject.GetComponent<VideoPlayer>().playOnAwake = true;
         videoPlayer.clip = vids[1];
