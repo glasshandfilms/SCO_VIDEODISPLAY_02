@@ -16,6 +16,7 @@ public class VideoCtrl : MonoBehaviour
     public Slider sliderVolume; 
         
     public Button playButton;
+    public Image playButtonImage;
     public Sprite playSprite;
     public Sprite pauseSprite;
     private int counter = 0;
@@ -32,6 +33,18 @@ public class VideoCtrl : MonoBehaviour
     public float fadeInTime = 0.5f;
     public float fadeOutTime = 0.2f;
 
+    public Material playButtonMat;
+    public bool isCycling;
+    private bool goingForward;
+    public Material playButtonFlashing;
+    public Color startColor;
+    public Color endColor;
+    [SerializeField]
+    private bool isGoingForward;
+    public float time;
+    public bool flashing;
+
+
     void Awake()
     {
         videoPlayer = GetComponent<VideoPlayer>();
@@ -41,6 +54,11 @@ public class VideoCtrl : MonoBehaviour
         tabs[2].enabled = false;
         tabs[3].enabled = false;
         tabs[4].enabled = false;
+        isCycling = false;
+        isGoingForward = true;
+        playButtonMat = playButtonImage.GetComponent<Image>().material;
+        playButtonMat.color = startColor;
+        
 
     }
     
@@ -73,6 +91,23 @@ public class VideoCtrl : MonoBehaviour
         {
             Application.Quit();
         }
+
+        if (flashing == true)
+        {
+            if (!isCycling)
+            {
+                Debug.Log("is Cycling = true");
+                if (goingForward)
+                    StartCoroutine(PlayButtonFlashCo(startColor, endColor, time, playButtonMat));
+                else
+                    StartCoroutine(PlayButtonFlashCo(endColor, startColor, time, playButtonMat));
+            }
+        }
+        else
+        {
+            playButtonMat.color = startColor;
+        }
+        
     }
 
     public void ShowVolumeBar()
@@ -112,9 +147,7 @@ public class VideoCtrl : MonoBehaviour
         
         
         
-    }
-
-    
+    }    
     
     public void ChangeVolume()
     {
@@ -123,16 +156,22 @@ public class VideoCtrl : MonoBehaviour
 
     public void ChangeButton()
     {
+        
         counter++;
         if (counter % 2 == 0)
         {
+            
             playButton.image.overrideSprite = pauseSprite;
             videoPlayer.Play();
+            flashing = false;
+
+
         }
         else
         {
             playButton.image.overrideSprite = playSprite;            
             videoPlayer.Pause();
+            
         }
     }
 
@@ -170,7 +209,6 @@ public class VideoCtrl : MonoBehaviour
         }
         
     }
-
     
     IEnumerator ShowUICo()
     {
@@ -192,6 +230,28 @@ public class VideoCtrl : MonoBehaviour
         
     }
 
+    IEnumerator PlayButtonFlashCo(Color startColor, Color endColor, float cycleTime, Material mat)
+    {
+        //Debug.Log("In Coroutine");
+        isCycling = true;
+        float currentTime = 0;
+        while (currentTime < cycleTime)
+        {
+            //Debug.Log("start");
+            currentTime += Time.deltaTime;
+            float t = currentTime / cycleTime;
+            Color currentColor = Color.Lerp(startColor, endColor, t);
+            mat.color = currentColor;
+            yield return null;
+        }
+        isCycling = false;
+        goingForward = !goingForward;
+
+
+
+
+    }
+
     public void CivitasVideo()
     {
         Debug.Log("play Civitas Video");
@@ -200,60 +260,139 @@ public class VideoCtrl : MonoBehaviour
         tabs[2].enabled = false;
         tabs[3].enabled = false;
         tabs[4].enabled = false;
-        this.gameObject.GetComponent<VideoPlayer>().playOnAwake = true;
+        this.gameObject.GetComponent<VideoPlayer>().playOnAwake = false;
         videoPlayer.clip = vids[2];
         videoPlayer.audioOutputMode = UnityEngine.Video.VideoAudioOutputMode.Direct;
+        if (playButton.image.overrideSprite == pauseSprite)
+        {
+            
+            videoPlayer.Play();
+            flashing = false;
+
+        }
+        else
+        {
+            playButton.image.overrideSprite = playSprite;
+            videoPlayer.Pause();
+            PlayButtonPulse();
+        }
     }
 
     public void BadgeVideo()
     {
+        
         tabs[0].enabled = false;
         tabs[1].enabled = true;
         tabs[2].enabled = false;
         tabs[3].enabled = false;
         tabs[4].enabled = false;
         Debug.Log("play Badge Video");
-        this.gameObject.GetComponent<VideoPlayer>().playOnAwake = true;
+        this.gameObject.GetComponent<VideoPlayer>().playOnAwake = false;
         videoPlayer.clip = vids[3];
         videoPlayer.audioOutputMode = UnityEngine.Video.VideoAudioOutputMode.Direct;
+        if (playButton.image.overrideSprite == pauseSprite)
+        {
+            
+            videoPlayer.Play();
+            flashing = false;
+
+        }
+        else
+        {
+            playButton.image.overrideSprite = playSprite;
+            videoPlayer.Pause();
+            PlayButtonPulse();
+        }
     }
 
     public void ScoppechioVideo()
     {
+        
         tabs[0].enabled = false;
         tabs[1].enabled = false;
         tabs[2].enabled = true;
         tabs[3].enabled = false;
         tabs[4].enabled = false;
         Debug.Log("play Scoppechio Video");
-        this.gameObject.GetComponent<VideoPlayer>().playOnAwake = true;
+        this.gameObject.GetComponent<VideoPlayer>().playOnAwake = false;
         videoPlayer.clip = vids[0];
         videoPlayer.audioOutputMode = UnityEngine.Video.VideoAudioOutputMode.Direct;
+        if (playButton.image.overrideSprite == pauseSprite)
+        {
+            
+            videoPlayer.Play();
+            flashing = false;
+
+        }
+        else
+        {
+            playButton.image.overrideSprite = playSprite;
+            videoPlayer.Pause();
+            PlayButtonPulse();
+        }
     }
 
     public void ThreeAnimationVideo()
     {
+        
         tabs[0].enabled = false;
         tabs[1].enabled = false;
         tabs[2].enabled = false;
         tabs[3].enabled = true;
         tabs[4].enabled = false;
         Debug.Log("play 3 Animation Video");
-        this.gameObject.GetComponent<VideoPlayer>().playOnAwake = true;
+        this.gameObject.GetComponent<VideoPlayer>().playOnAwake = false;
         videoPlayer.clip = vids[4];
         videoPlayer.audioOutputMode = UnityEngine.Video.VideoAudioOutputMode.Direct;
+        if (playButton.image.overrideSprite == pauseSprite)
+        {
+            
+            videoPlayer.Play();
+            flashing = false;
+
+        }
+        else
+        {
+            playButton.image.overrideSprite = playSprite;
+            videoPlayer.Pause();
+            PlayButtonPulse();
+        }
     }
 
     public void ThreeLiveAction()
     {
+        
         tabs[0].enabled = false;
         tabs[1].enabled = false;
         tabs[2].enabled = false;
         tabs[3].enabled = false;
         tabs[4].enabled = true;
         Debug.Log("play 3 Live Action Video");
-        this.gameObject.GetComponent<VideoPlayer>().playOnAwake = true;
+        this.gameObject.GetComponent<VideoPlayer>().playOnAwake = false;
         videoPlayer.clip = vids[1];
         videoPlayer.audioOutputMode = UnityEngine.Video.VideoAudioOutputMode.Direct;
+        if (playButton.image.overrideSprite == pauseSprite)
+        {
+            
+            videoPlayer.Play();
+            flashing = false;
+            
+        }
+        else
+        {
+            playButton.image.overrideSprite = playSprite;
+            videoPlayer.Pause();
+            PlayButtonPulse();
+        }
+
     }
+
+    public void PlayButtonPulse()
+    {        
+        
+        flashing = true;
+        
+    }
+
+    
 }
