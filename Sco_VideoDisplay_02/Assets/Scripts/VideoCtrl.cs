@@ -35,14 +35,14 @@ public class VideoCtrl : MonoBehaviour
 
     public Material playButtonMat;
     public bool isCycling;
-    private bool goingForward;
-    public Material playButtonFlashing;
+    private bool goingForward;    
     public Color startColor;
     public Color endColor;
     [SerializeField]
     private bool isGoingForward;
     public float time;
     public bool flashing;
+    public Button homeScreenButton;
 
 
     void Awake()
@@ -54,6 +54,7 @@ public class VideoCtrl : MonoBehaviour
         tabs[2].enabled = false;
         tabs[3].enabled = false;
         tabs[4].enabled = false;
+        
         isCycling = false;
         isGoingForward = true;
         playButtonMat = playButtonImage.GetComponent<Image>().material;
@@ -81,6 +82,8 @@ public class VideoCtrl : MonoBehaviour
 
         volumeToggle = GameObject.Find("VolumeToggle").GetComponent<Toggle>();
 
+        homeScreenButton = GameObject.Find("HomeScreenButton").GetComponent<Button>();
+
         
 
     }
@@ -98,7 +101,7 @@ public class VideoCtrl : MonoBehaviour
         {
             if (!isCycling)
             {
-                Debug.Log("is Cycling = true");
+                //Debug.Log("is Cycling = true");
                 if (goingForward)
                     StartCoroutine(PlayButtonFlashCo(startColor, endColor, time, playButtonMat));
                 else
@@ -117,13 +120,13 @@ public class VideoCtrl : MonoBehaviour
             {
 
                 Cursor.visible = false;
-                Debug.Log("cursor hidden");
+                //Debug.Log("cursor hidden");
 
             }
             else
             {
                 Cursor.visible = true;
-                Debug.Log("cursor show");
+                //Debug.Log("cursor show");
             }
         }
 
@@ -131,7 +134,7 @@ public class VideoCtrl : MonoBehaviour
 
     public void ShowVolumeBar()
     {
-        Debug.Log("is On == true");
+        //Debug.Log("is On == true");
         StartCoroutine(ShowVolumeBackgroundCo());        
     }
 
@@ -279,6 +282,7 @@ public class VideoCtrl : MonoBehaviour
         tabs[2].enabled = false;
         tabs[3].enabled = false;
         tabs[4].enabled = false;
+        
         this.gameObject.GetComponent<VideoPlayer>().playOnAwake = false;
         videoPlayer.clip = vids[2];
         videoPlayer.audioOutputMode = UnityEngine.Video.VideoAudioOutputMode.Direct;
@@ -305,6 +309,7 @@ public class VideoCtrl : MonoBehaviour
         tabs[2].enabled = false;
         tabs[3].enabled = false;
         tabs[4].enabled = false;
+        
         Debug.Log("play Badge Video");
         this.gameObject.GetComponent<VideoPlayer>().playOnAwake = false;
         videoPlayer.clip = vids[3];
@@ -332,6 +337,7 @@ public class VideoCtrl : MonoBehaviour
         tabs[2].enabled = true;
         tabs[3].enabled = false;
         tabs[4].enabled = false;
+        
         Debug.Log("play Scoppechio Video");
         this.gameObject.GetComponent<VideoPlayer>().playOnAwake = false;
         videoPlayer.clip = vids[0];
@@ -359,6 +365,7 @@ public class VideoCtrl : MonoBehaviour
         tabs[2].enabled = false;
         tabs[3].enabled = true;
         tabs[4].enabled = false;
+        
         Debug.Log("play 3 Animation Video");
         this.gameObject.GetComponent<VideoPlayer>().playOnAwake = false;
         videoPlayer.clip = vids[4];
@@ -386,6 +393,7 @@ public class VideoCtrl : MonoBehaviour
         tabs[2].enabled = false;
         tabs[3].enabled = false;
         tabs[4].enabled = true;
+        
         Debug.Log("play 3 Live Action Video");
         this.gameObject.GetComponent<VideoPlayer>().playOnAwake = false;
         videoPlayer.clip = vids[1];
@@ -406,12 +414,41 @@ public class VideoCtrl : MonoBehaviour
 
     }
 
+    public void HomeScreenVideo()
+    {
+        tabs[0].enabled = false;
+        tabs[1].enabled = false;
+        tabs[2].enabled = false;
+        tabs[3].enabled = false;
+        tabs[4].enabled = false;
+        
+        Debug.Log("play Home Screen Video");
+        this.gameObject.GetComponent<VideoPlayer>().playOnAwake = false;
+        videoPlayer.clip = vids[5];
+        videoPlayer.audioOutputMode = UnityEngine.Video.VideoAudioOutputMode.Direct;
+        if (playButton.image.overrideSprite == pauseSprite)
+        {
+
+            videoPlayer.Play();
+            flashing = false;
+
+        }
+        else
+        {
+            playButton.image.overrideSprite = playSprite;
+            videoPlayer.Pause();
+            PlayButtonPulse();
+        }
+    }
+
     public void PlayButtonPulse()
     {        
         
         flashing = true;
         
     }
+
+    
 
     
 }
