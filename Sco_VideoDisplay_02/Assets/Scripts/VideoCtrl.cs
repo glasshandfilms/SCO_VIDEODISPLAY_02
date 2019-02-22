@@ -81,6 +81,8 @@ public class VideoCtrl : MonoBehaviour
 
         volumeToggle = GameObject.Find("VolumeToggle").GetComponent<Toggle>();
 
+        
+
     }
 
     void Update()
@@ -107,7 +109,24 @@ public class VideoCtrl : MonoBehaviour
         {
             playButtonMat.color = startColor;
         }
-        
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            counter++;
+            if (counter % 2 == 0)
+            {
+
+                Cursor.visible = false;
+                Debug.Log("cursor hidden");
+
+            }
+            else
+            {
+                Cursor.visible = true;
+                Debug.Log("cursor show");
+            }
+        }
+
     }
 
     public void ShowVolumeBar()
