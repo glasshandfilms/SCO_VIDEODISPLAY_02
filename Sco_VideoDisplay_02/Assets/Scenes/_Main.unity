@@ -1396,7 +1396,7 @@ MonoBehaviour:
   - {fileID: 32900000, guid: 604bd4b94d6f0de459a754edcfdd858d, type: 3}
   - {fileID: 32900000, guid: b753f4a89f0c9ba4d9e1af831bbd758a, type: 3}
   - {fileID: 32900000, guid: 06c25215bab081c49a00c3631a1b5d81, type: 3}
-  - {fileID: 32900000, guid: 6023bf1f85532f84da3ffe7ee8634d29, type: 3}
+  - {fileID: 32900000, guid: 0662d40101215044188698cb8218f399, type: 3}
   videoClipIndex: 0
   tabs:
   - {fileID: 927008777}
