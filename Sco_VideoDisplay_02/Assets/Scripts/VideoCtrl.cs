@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.UI;
+using System.IO;
 [RequireComponent(typeof(VideoPlayer))]
 
 public class VideoCtrl : MonoBehaviour
 {
-    public VideoClip[] vids;
+    private string videoName;    
     public int videoClipIndex;
     public RawImage[] tabs;
     public int tabsIndex;
     public VideoPlayer videoPlayer;
+    private string pathVideos;
     public float volume = 1f;
     public Slider sliderVolume; 
         
@@ -47,7 +49,10 @@ public class VideoCtrl : MonoBehaviour
 
     void Awake()
     {
+        Cursor.visible = false;
+        videoName = "Scoppechio.mp4";
         videoPlayer = GetComponent<VideoPlayer>();
+        videoPlayer.url = Path.Combine(Application.streamingAssetsPath, videoName);        
         volume = sliderVolume.value;
         tabs[0].enabled = false;
         tabs[1].enabled = false;
@@ -66,7 +71,6 @@ public class VideoCtrl : MonoBehaviour
     void Start()
     {
         
-        videoPlayer.clip = vids[videoClipIndex];
         videoPlayer.audioOutputMode = UnityEngine.Video.VideoAudioOutputMode.Direct;
         this.gameObject.GetComponent<VideoPlayer>().playOnAwake = false;
 
@@ -119,13 +123,13 @@ public class VideoCtrl : MonoBehaviour
             if (counter % 2 == 0)
             {
 
-                Cursor.visible = false;
+                Cursor.visible = true;
                 //Debug.Log("cursor hidden");
 
             }
             else
             {
-                Cursor.visible = true;
+                Cursor.visible = false;
                 //Debug.Log("cursor show");
             }
         }
@@ -284,7 +288,8 @@ public class VideoCtrl : MonoBehaviour
         tabs[4].enabled = false;
         
         this.gameObject.GetComponent<VideoPlayer>().playOnAwake = false;
-        videoPlayer.clip = vids[2];
+        videoName = "Civitas.mp4";
+        videoPlayer.url = Path.Combine(Application.streamingAssetsPath, videoName);
         videoPlayer.audioOutputMode = UnityEngine.Video.VideoAudioOutputMode.Direct;
         if (playButton.image.overrideSprite == pauseSprite)
         {
@@ -312,7 +317,8 @@ public class VideoCtrl : MonoBehaviour
         
         Debug.Log("play Badge Video");
         this.gameObject.GetComponent<VideoPlayer>().playOnAwake = false;
-        videoPlayer.clip = vids[3];
+        videoName = "Badge.mp4";
+        videoPlayer.url = Path.Combine(Application.streamingAssetsPath, videoName);
         videoPlayer.audioOutputMode = UnityEngine.Video.VideoAudioOutputMode.Direct;
         if (playButton.image.overrideSprite == pauseSprite)
         {
@@ -340,7 +346,8 @@ public class VideoCtrl : MonoBehaviour
         
         Debug.Log("play Scoppechio Video");
         this.gameObject.GetComponent<VideoPlayer>().playOnAwake = false;
-        videoPlayer.clip = vids[0];
+        videoName = "Scoppechio.mp4";
+        videoPlayer.url = Path.Combine(Application.streamingAssetsPath, videoName);
         videoPlayer.audioOutputMode = UnityEngine.Video.VideoAudioOutputMode.Direct;
         if (playButton.image.overrideSprite == pauseSprite)
         {
@@ -368,7 +375,8 @@ public class VideoCtrl : MonoBehaviour
         
         Debug.Log("play 3 Animation Video");
         this.gameObject.GetComponent<VideoPlayer>().playOnAwake = false;
-        videoPlayer.clip = vids[4];
+        videoName = "TheThreeAnimation.mp4";
+        videoPlayer.url = Path.Combine(Application.streamingAssetsPath, videoName);
         videoPlayer.audioOutputMode = UnityEngine.Video.VideoAudioOutputMode.Direct;
         if (playButton.image.overrideSprite == pauseSprite)
         {
@@ -396,7 +404,8 @@ public class VideoCtrl : MonoBehaviour
         
         Debug.Log("play 3 Live Action Video");
         this.gameObject.GetComponent<VideoPlayer>().playOnAwake = false;
-        videoPlayer.clip = vids[1];
+        videoName = "TheThreeLiveAction.mp4";
+        videoPlayer.url = Path.Combine(Application.streamingAssetsPath, videoName);
         videoPlayer.audioOutputMode = UnityEngine.Video.VideoAudioOutputMode.Direct;
         if (playButton.image.overrideSprite == pauseSprite)
         {
@@ -424,7 +433,8 @@ public class VideoCtrl : MonoBehaviour
         
         Debug.Log("play Home Screen Video");
         this.gameObject.GetComponent<VideoPlayer>().playOnAwake = false;
-        videoPlayer.clip = vids[5];
+        videoName = "HomeScreen.mp4";
+        videoPlayer.url = Path.Combine(Application.streamingAssetsPath, videoName);
         videoPlayer.audioOutputMode = UnityEngine.Video.VideoAudioOutputMode.Direct;
         if (playButton.image.overrideSprite == pauseSprite)
         {
